@@ -132,14 +132,14 @@
 
         }
         function checkTool() {
-            if (this.getAttribute('class') == 'active' && this.getAttribute('id') == 'pencil') {
+            if (this.getAttribute('class') === 'active' && this.getAttribute('id') === 'pencil') {
                 canvas.addEventListener('mousemove', onmousemove, false);
                 canvas.addEventListener('mouseup', onmouseup, false);
                 canvas.addEventListener('mousedown', onmousedown, false);
                 setColor();
                 setBrushSize();
             }
-            if (this.getAttribute('class') == 'active' && this.getAttribute('id') == 'rubber') {
+            if (this.getAttribute('class') === 'active' && this.getAttribute('id') === 'rubber') {
                 canvas.addEventListener('mousemove', onmousemove, false);
                 canvas.addEventListener('mouseup', onmouseup, false);
                 canvas.addEventListener('mousedown', onmousedown, false);
