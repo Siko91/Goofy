@@ -11,6 +11,8 @@ var prevousPosionY; // will be initialized in the engine. A Number - the Y posit
 var customPositionX; // will NOT be initialized in the engine. A number. Use it whenever you need to save a position
 var customPositionY; // will NOT be initialized in the engine. A number. Use it whenever you need to save a position
 
+var customVariable; // will NOT be initialized in the engine. Can be anything.
+
 var currentLayer; // will be initialized in the engine. A Canvas
 var currentContext; // will be initialized in the engine. A Canvas 2D context
 

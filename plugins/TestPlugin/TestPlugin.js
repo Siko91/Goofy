@@ -33,13 +33,13 @@ function testPenDraw() {
 }
 
 function loadCircleContextMenu() {
-    header = "Circle Options"
-    htmlToInsert = "<label for=\"circle-radius-input\">Radius: </label>"
+    var header = "Circle Options"
+    var htmlToInsert = "<label for=\"circle-radius-input\">Radius: </label>"
         + "<input type=\"number\" id=\"circle-radius-input\" value=\"30\"/>";
     updateToolOptions(header, htmlToInsert);
 }
 function loadPenContextMenu() {
-    header = "Pen Options"
-    htmlToInsert = "Just draw as you see fit";
+    var header = "Pen Options"
+    var htmlToInsert = "Just draw as you see fit";
     updateToolOptions(header, htmlToInsert);
 }

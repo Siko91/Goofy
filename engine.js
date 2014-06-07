@@ -87,6 +87,11 @@ function updateCurrentTool(name) {
     var tools = currentPlugin.toolBox.tools;
     for (var i = 0; i < tools.length; i++) {
         if (tools[i].name === name) {
+            // clear custum vars
+            customPositionX = NaN;
+            customPositionY = NaN;
+            customVariable = undefined;
+            // update the tool
             currentTool = tools[i];
             LoadToolBox();
             document.getElementById("tool-options").innerHTML = "No optins available for this tool";

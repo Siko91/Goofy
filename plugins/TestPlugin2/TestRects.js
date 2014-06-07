@@ -62,8 +62,8 @@ function drawDraggedRect() {
 }
 
 function loadClickRectContextMenu() {
-    header = "ClickRect Options"
-    htmlToInsert = 
+    var header = "ClickRect Options"
+    var htmlToInsert = 
         "<label for=\"rect-width-input\">Width: </label>"
         + "<input type=\"number\" id=\"rect-width-input\" value=\"50\"/>"
         + "<label for=\"rect-haight-input\">Haight: </label>"
@@ -72,7 +72,7 @@ function loadClickRectContextMenu() {
 }
 
 function loadDragRectContextMenu() {
-    header = "DrawRect Options"
-    htmlToInsert = "Click, drag and release, to make a rectangle."
+    var header = "DrawRect Options"
+    var htmlToInsert = "Click, drag and release, to make a rectangle."
     updateToolOptions(header, htmlToInsert);
 }
