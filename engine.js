@@ -15,7 +15,7 @@ function fillGeneralOptionsDiv() {
         + "<div class=\"group\"><label for=\"stroke-color-input\">Stroke:</label>"
         + "<input type=\"color\" name=\"name\" id=\"stroke-color-input\" onchange=\"updateCurrentSettings()\" /></div>"
         + "<div class=\"group\"><label for=\"fill-color-input\">Fill:</label>"
-        + "<input type=\"color\" name=\"name\" id=\"fill-color-input\" onchange=\"updateCurrentSettings()\" /></div>"
+        + "<input type=\"color\" name=\"name\" id=\"fill-color-input\" value=\"#FFFFFF\" onchange=\"updateCurrentSettings()\" /></div>"
         + "<div class=\"group\"><label for=\"plugin-selector\">Active Plugin: </label>"
         + "<select id=\"plugin-selector\" onchange=\"updateCurrentPlugin()\"></select></div>"
         + "<button onclick=\"getImageButtonClicked()\" >Get Image</button>";
@@ -180,6 +180,9 @@ function deleteLayer(layerToDelete) {
 }
 
 function handleMouseMove(event) {
+    prevousPosionX = mousePosionX;
+    prevousPosionY = mousePosionY;
+
     var hiddenLeftPixels = document.all ? iebody.scrollLeft : pageXOffset;
     var hiddenTopPixels = document.all ? iebody.scrollTop : pageYOffset;
 
@@ -197,12 +200,14 @@ function handleMouseMove(event) {
 }
 
 function handleMouseUp(event) {
+    mousePressed = false;
     if (currentTool.onMouseUp !== null && currentTool.onMouseUp !== undefined) {
         currentTool.onMouseUp();
     }
 }
 
 function handleMouseDown(event) {
+    mousePressed = true;
     if (currentTool.onMouseDown !== null && currentTool.onMouseDown !== undefined) {
         currentTool.onMouseDown();
     }
