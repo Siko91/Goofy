@@ -9,16 +9,29 @@ var layers = {},
 function fillGeneralOptionsDiv() {
     document.getElementById("general-options").innerHTML
         += "<header><h1>general options</h1></header>"
-        + "<span id=\"mouse-position-tracker\"></span>"
-        + "<div class=\"group\"><label for=\"line-width-input\">Line width:</label>"
-        + "<input type=\"number\" id=\"line-width-input\" onchange=\"updateCurrentSettings()\" value=\"3\"/></div>"
-        + "<div class=\"group\"><label for=\"stroke-color-input\">Stroke:</label>"
-        + "<input type=\"color\" name=\"name\" id=\"stroke-color-input\" onchange=\"updateCurrentSettings()\" /></div>"
-        + "<div class=\"group\"><label for=\"fill-color-input\">Fill:</label>"
-        + "<input type=\"color\" name=\"name\" id=\"fill-color-input\" value=\"#FFFFFF\" onchange=\"updateCurrentSettings()\" /></div>"
-        + "<div class=\"group\"><label for=\"plugin-selector\">Active Plugin: </label>"
-        + "<select id=\"plugin-selector\" onchange=\"updateCurrentPlugin()\"></select></div>"
-        + "<button onclick=\"getImageButtonClicked()\" >Get Image</button>";
+        + "<span id='mouse-position-tracker'></span>"
+        
+        + "<div class='group'><label for='line-width-input'>Line width:</label>"
+        + "<input type='number' id='line-width-input' onchange='updateCurrentSettings()' value='3'/></div>"
+        
+        + "<div class='group'><label for='stroke-color-input'>Stroke:</label>"
+        + "<input type='color' name='name' id='stroke-color-input' onchange='updateCurrentSettings()' /></div>"
+
+        + "<div class='group'><label for='fill-color-input'>Fill:</label>"
+        + "<input type='color' name='name' id='fill-color-input' value='#FFFFFF' onchange='updateCurrentSettings()' /></div>"
+
+        + "<div class='group'>"
+        + "<label for='stroke-color-input'>Stroke Opacity:</label>"
+        + "<input type='range' id='stroke-opacity-input' min='0' max='100' value='100' step='2' onchange='updateCurrentSettings()' />"
+        + "</div>"
+        + "<div class='group'>"
+        + "<label for='fill-color-input'> Fill Opacity:</label>"
+        + "<input type='range' id='fill-opacity-input' min='0' max='100' value='100' step='2' onchange='updateCurrentSettings()' />"
+        + "</div>"
+        
+        + "<div class='group'><label for='plugin-selector'>Active Plugin: </label>"
+        + "<select id='plugin-selector' onchange='updateCurrentPlugin()'></select></div>"
+        + "<button onclick='getImageButtonClicked()' >Get Image</button>";
 }
 
 function fillPluginSelector() {
@@ -36,8 +49,17 @@ function getCanvasImage() {
 
 function updateCurrentSettings() {
     currentLineWidth = document.getElementById("line-width-input").value;
-    currentStrokeColor = document.getElementById("stroke-color-input").value;
-    currentFillColor = document.getElementById("fill-color-input").value;
+
+    var strokeOpacity = document.getElementById("stroke-opacity-input").value;
+    var fillOpacity = document.getElementById("fill-opacity-input").value;
+
+    var strokeColorInput = document.getElementById("stroke-color-input").value;
+    var fillColorInput = document.getElementById("fill-color-input").value;
+
+    currentStrokeColor = strokeColorInput; // no opacity yet
+    currentFillColor = fillColorInput; // no opacity yet
+
+    function ConvertToRGBA() { }
 }
 
 function updateCurrentPlugin() {
@@ -68,8 +90,8 @@ function LoadToolBox() {
 
     for (var i = 0; i < currentPlugin.toolBox.tools.length; i++) {
         var tool = currentPlugin.toolBox.tools[i];
-        htmlContent += "<button onclick=\"updateCurrentTool('" + tool.name + "')\" "
-            + ((tool===currentTool)? "class=\"currentTool\"" : "")
+        htmlContent += "<button onclick='updateCurrentTool('" + tool.name + "')' "
+            + ((tool===currentTool)? "class='currentTool'" : "")
             + " >"
             + tool.name
             + "</button>";
@@ -93,18 +115,18 @@ function updeteLayerControlDiv() {
             "<tr>"
                 + "<td>"
                     + "<button "
-                        + "onClick=\"updateCurrentLayer('" + layerName + "')\" "
+                        + "onClick='updateCurrentLayer('" + layerName + "')' "
                         + (layers[layerName] === currentLayer ? "checked" : "")
                         + ">Select</button></td>"
     		    + "<td>" + layerName + "</td>"
     		    + "<td>"
                     + "<button "
-                        + "onclick=\"deleteLayer('" + layerName + "')\" >Delete</button>" + "</td>"
+                        + "onclick='deleteLayer('" + layerName + "')' >Delete</button>" + "</td>"
     		+ "</tr>";
     }
     htmlContent += "</tbody></table><br/><br/>"
-    + "<input type=\"text\" placeholder=\"\" id=\"new-layer-name-input\"/>"
-    + "<button onclick=\"addNewLayer()\" >Add new layer</button>";
+    + "<input type='text' placeholder='' id='new-layer-name-input'/>"
+    + "<button onclick='addNewLayer()' >Add new layer</button>";
 
     document.getElementById("layer-options").innerHTML = htmlContent;
 }
@@ -116,8 +138,8 @@ function addNewLayer(layerName) {
 
     if (layers[layerName] === undefined) {
         document.getElementById("canvas-container").innerHTML
-            += "<canvas id=\"" + layerName + "-canvas\""
-            + "style=\"padding: 0px; margin: 0px; border: 0px none; background: none repeat scroll 0% 0% transparent; position: absolute; top: 0px; left: 0px;\" "
+            += "<canvas id='" + layerName + "-canvas'"
+            + "style='padding: 0px; margin: 0px; border: 0px none; background: none repeat scroll 0% 0% transparent; position: absolute; top: 0px; left: 0px;' "
             + "width='800' height='500'>";
         
         layers[layerName] = document.getElementById(layerName + "-canvas");
