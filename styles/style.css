@@ -39,7 +39,9 @@ div header h2 {
 input[type='number'] {
     width: 50px;
 }
-
+input[type='range'] {
+    width: 100px;
+}
 #general-options > .group {
     display: inline-block;
     background: none;

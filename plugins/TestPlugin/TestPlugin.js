@@ -1,4 +1,4 @@
-var testPen = makeToolObj("testPen", null, testPenDraw, null, loadCircleContextMenu);
+var testPen = makeToolObj("testPen", null, testPenDraw, null, loadPenContextMenu);
 var testCircleMaker = makeToolObj("testCircleMaker", testMakeCircle, null, null, loadCircleContextMenu);
 
 var testPluginTools = [testPen, testCircleMaker];
@@ -23,7 +23,7 @@ function testPenDraw() {
     if (mousePressed) {
         currentContext.lineWidth = currentLineWidth;
         currentContext.lineCap = 'round';
-
+        currentContext.strokeStyle = currentStrokeColor;
         currentContext.beginPath();
         currentContext.moveTo(prevousPosionX, prevousPosionY);
         currentContext.lineTo(mousePosionX, mousePosionY);
@@ -36,5 +36,10 @@ function loadCircleContextMenu() {
     header = "Circle Options"
     htmlToInsert = "<label for=\"circle-radius-input\">Radius: </label>"
         + "<input type=\"number\" id=\"circle-radius-input\" value=\"30\"/>";
+    updateToolOptions(header, htmlToInsert);
+}
+function loadPenContextMenu() {
+    header = "Pen Options"
+    htmlToInsert = "Just draw as you see fit";
     updateToolOptions(header, htmlToInsert);
 }
