@@ -23,7 +23,7 @@ function testPenDraw() {
     if (mousePressed) {
         currentContext.lineWidth = currentLineWidth;
         currentContext.lineCap = 'round';
-
+        currentContext.strokeStyle = currentStrokeColor;
         currentContext.beginPath();
         currentContext.moveTo(prevousPosionX, prevousPosionY);
         currentContext.lineTo(mousePosionX, mousePosionY);

@@ -53,13 +53,24 @@ function updateCurrentSettings() {
     var strokeOpacity = document.getElementById("stroke-opacity-input").value;
     var fillOpacity = document.getElementById("fill-opacity-input").value;
 
-    var strokeColorInput = document.getElementById("stroke-color-input").value;
-    var fillColorInput = document.getElementById("fill-color-input").value;
+    var strokeColorInput = document.getElementById("stroke-color-input").value.toLowerCase();
+    var fillColorInput = document.getElementById("fill-color-input").value.toLowerCase();
 
-    currentStrokeColor = strokeColorInput; // no opacity yet
+    function ConvertToRGBA(color, opacity) {
+        var hexSymbols = [1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f", ]
+        var red = color[1] + color[2];
+        var green = color[3] + color[4];
+        var blue = color[5] + color[6];
+        opacity = opacity / 100;
+
+    }
+
+    currentStrokeColor = ConvertToRGBA(strokeColorInput, strokeOpacity);
+    currentFillColor = ConvertToRGBA(fillColorInput, fillOpacity); 
+
+    currentStrokeColor = strokeColorInput;  // no opacity yet
     currentFillColor = fillColorInput; // no opacity yet
 
-    function ConvertToRGBA() { }
 }
 
 function updateCurrentPlugin() {
