@@ -18,7 +18,7 @@ function fillGeneralOptionsDiv() {
         + "<input type=\"color\" name=\"name\" id=\"fill-color-input\" value=\"#FFFFFF\" onchange=\"updateCurrentSettings()\" /></div>"
         + "<div class=\"group\"><label for=\"plugin-selector\">Active Plugin: </label>"
         + "<select id=\"plugin-selector\" onchange=\"updateCurrentPlugin()\"></select></div>"
-        + "<button onclick=\"getImageButtonClicked()\" >Get Image</button>";
+        + "<button onclick=\"getCanvasImage()\" >Get Image</button>";
 }
 
 function fillPluginSelector() {
