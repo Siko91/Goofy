@@ -155,11 +155,14 @@ function addNewLayer(layerName) {
     }
 
     if (layers[layerName] === undefined) {
-        document.getElementById("canvas-container").innerHTML
-            += "<canvas id=\"" + layerName + "-canvas\""
-            + "style=\"padding: 0px; margin: 0px; border: 0px none; background: none repeat scroll 0% 0% transparent; position: absolute; top: 0px; left: 0px;\" "
-            + "width='800' height='500'>";
-        
+        var newLayer = document.createElement("canvas");
+        newLayer.id = layerName + "-canvas";
+        newLayer.style = "padding: 0px; margin: 0px; border: 0px none; background: none repeat scroll 0% 0% transparent; position: absolute; top: 0px; left: 0px;";
+        newLayer.width = 800;
+        newLayer.height = 500;
+        newLayer.id = layerName + "-canvas";
+        document.getElementById("canvas-container").appendChild(newLayer);
+
         layers[layerName] = document.getElementById(layerName + "-canvas");
         layerNames.push(layerName);
         canvasContexts[layerName] = layers[layerName].getContext('2d');
@@ -181,11 +184,9 @@ function MoveLayerToTop(layerName) {
     layerNames[0] = layerName;
 
     // in html
-//    var htmlContentToMove = layers[layerName].outerHTML;
-//    document.getElementById("canvas-container").innerHTML
-//        = document.getElementById("canvas-container").innerHTML.replace(htmlContentToMove, "")
-//            + htmlContentToMove;
-            
+    var layerToMove = layers[layerName];
+    document.getElementById("canvas-container").removeChild(layerToMove);
+    document.getElementById("canvas-container").appendChild(layerToMove);
 }
 
 function updateCurrentLayer(layerName) {
@@ -204,11 +205,7 @@ function deleteLayer(layerToDelete) {
         if (currentLayer === layers[layerToDelete]) {
             updateCurrentLayer(layerNames[0]);
         }
-
-        var textToRemove = layers[layerToDelete].outerHTML;
-        document.getElementById("canvas-container").innerHTML 
-            = document.getElementById("canvas-container").innerHTML.replace(textToRemove, "");
-
+        layers[layerToDelete].outerHTML = "";
         layers[layerToDelete] = undefined;
         canvasContexts[layerToDelete] = undefined;
 
