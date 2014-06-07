@@ -31,6 +31,7 @@ function fillGeneralOptionsDiv() {
         
         + "<div class='group'><label for='plugin-selector'>Active Plugin: </label>"
         + "<select id='plugin-selector' onchange='updateCurrentPlugin()'></select></div>"
+        + "<button onclick='clearCurrentLayer()' >Clear Layer</button> "
         + "<button onclick='getImageButtonClicked()' >Get Image</button>";
 }
 
@@ -47,30 +48,30 @@ function getCanvasImage() {
     alert("not implemented yet!");
 }
 
+function clearCurrentLayer() {
+    currentContext.clearRect(0, 0, currentLayer.width, currentLayer.height);
+}
+
 function updateCurrentSettings() {
     currentLineWidth = document.getElementById("line-width-input").value;
 
-    var strokeOpacity = document.getElementById("stroke-opacity-input").value;
-    var fillOpacity = document.getElementById("fill-opacity-input").value;
+    var strokeOpacity = document.getElementById("stroke-opacity-input").value / 100;
+    var fillOpacity = document.getElementById("fill-opacity-input").value / 100;
 
     var strokeColorInput = document.getElementById("stroke-color-input").value.toLowerCase();
     var fillColorInput = document.getElementById("fill-color-input").value.toLowerCase();
 
     function ConvertToRGBA(color, opacity) {
-        var hexSymbols = [1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f", ]
-        var red = color[1] + color[2];
-        var green = color[3] + color[4];
-        var blue = color[5] + color[6];
-        opacity = opacity / 100;
+        var hexSymbols = [1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f"];
+        var red = (hexSymbols.indexOf(color[1]) + 1) * 16 + (hexSymbols.indexOf(color[2]) + 1);
+        var green = (hexSymbols.indexOf(color[3]) + 1) * 16 + (hexSymbols.indexOf(color[4]) + 1);
+        var blue = (hexSymbols.indexOf(color[5]) + 1) * 16 + (hexSymbols.indexOf(color[6]) + 1);
 
+        return "rgba(" + red + "," + green + "," + blue + "," + opacity + ")"
     }
 
     currentStrokeColor = ConvertToRGBA(strokeColorInput, strokeOpacity);
-    currentFillColor = ConvertToRGBA(fillColorInput, fillOpacity); 
-
-    currentStrokeColor = strokeColorInput;  // no opacity yet
-    currentFillColor = fillColorInput; // no opacity yet
-
+    currentFillColor = ConvertToRGBA(fillColorInput, fillOpacity);
 }
 
 function updateCurrentPlugin() {
@@ -101,7 +102,7 @@ function LoadToolBox() {
 
     for (var i = 0; i < currentPlugin.toolBox.tools.length; i++) {
         var tool = currentPlugin.toolBox.tools[i];
-        htmlContent += "<button onclick='updateCurrentTool('" + tool.name + "')' "
+        htmlContent += "<button onclick=\"updateCurrentTool('" + tool.name + "')\" "
             + ((tool===currentTool)? "class='currentTool'" : "")
             + " >"
             + tool.name
@@ -126,13 +127,13 @@ function updeteLayerControlDiv() {
             "<tr>"
                 + "<td>"
                     + "<button "
-                        + "onClick='updateCurrentLayer('" + layerName + "')' "
+                        + "onClick=\"updateCurrentLayer('" + layerName + "')\" "
                         + (layers[layerName] === currentLayer ? "checked" : "")
                         + ">Select</button></td>"
     		    + "<td>" + layerName + "</td>"
     		    + "<td>"
                     + "<button "
-                        + "onclick='deleteLayer('" + layerName + "')' >Delete</button>" + "</td>"
+                        + "onclick=\"deleteLayer('" + layerName + "')\" >Delete</button>" + "</td>"
     		+ "</tr>";
     }
     htmlContent += "</tbody></table><br/><br/>"
