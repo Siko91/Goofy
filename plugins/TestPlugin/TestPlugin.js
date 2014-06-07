@@ -8,7 +8,7 @@ var testPlugin = makePluginObj("testPlugin", testPluginToolBox);
 addPluginObj(testPlugin);
 
 function MakeCircle(event) {
-    var ctx = currentLayer.getContext('2d');
+    var ctx = currentContext;
 
     var radius = document.getElementById("circle-radius-input").value;
 

@@ -3,7 +3,7 @@ var plugins = [],
 
 var layers = {},
     layerNames = [],
-    toolLayer; // not part of the painting layers, and always on top
+    canvasContexts = {};
 
 // initialize functions (used only once)
 function fillGeneralOptionsDiv() {
@@ -19,11 +19,6 @@ function fillGeneralOptionsDiv() {
         + "<div class=\"group\"><label for=\"plugin-selector\">Active Plugin: </label>"
         + "<select id=\"plugin-selector\" onchange=\"updateCurrentPlugin()\"></select></div>"
         + "<button onclick=\"getImageButtonClicked()\" >Get Image</button>";
-}
-function createBackgroundCanvas() {
-    document.getElementById("canvas-container").innerHTML += "<canvas id=\"backgroundcanvas\""
-            + "style=\"padding: 0px; margin: 0px; border: 0px none; background: none repeat scroll 0% 0% transparent; position: absolute; top: 0px; left: 0px;\" "
-            + "width='800' height='500'>";
 }
 
 function fillPluginSelector() {
@@ -86,7 +81,7 @@ function LoadToolBox() {
 function updeteLayerControlDiv() {
     var htmlContent = "<header><h1>layer options</h1></header>"
     + "<table><thead><tr>"
-    + "<th>Current</th>"
+    + "<th>Select & Move Top</th>"
     + "<th>Layer Name</th>"
     + "<th>Delete</th>"
     + "</tr></thead><tbody>"
@@ -97,11 +92,10 @@ function updeteLayerControlDiv() {
         htmlContent +=
             "<tr>"
                 + "<td>"
-                    + "<input type=\"radio\" "
-                        + "name=\"selectLayer\" "
+                    + "<button "
                         + "onClick=\"updateCurrentLayer('" + layerName + "')\" "
                         + (layers[layerName] === currentLayer ? "checked" : "")
-                        + "></td>"
+                        + ">Select</button></td>"
     		    + "<td>" + layerName + "</td>"
     		    + "<td>"
                     + "<button "
@@ -121,7 +115,6 @@ function addNewLayer(layerName) {
     }
 
     if (layers[layerName] === undefined) {
-
         document.getElementById("canvas-container").innerHTML
             += "<canvas id=\"" + layerName + "-canvas\""
             + "style=\"padding: 0px; margin: 0px; border: 0px none; background: none repeat scroll 0% 0% transparent; position: absolute; top: 0px; left: 0px;\" "
@@ -129,6 +122,8 @@ function addNewLayer(layerName) {
         
         layers[layerName] = document.getElementById(layerName + "-canvas");
         layerNames.push(layerName);
+        canvasContexts[layerName] = layers[layerName].getContext('2d');
+
         updeteLayerControlDiv();
     }
     else {
@@ -136,9 +131,29 @@ function addNewLayer(layerName) {
     }
 }
 
+function MoveLayerToTop(layerName) {
+    
+    // in names
+    var indexOfLayerName = layerNames.indexOf(layerName);
+    for (var i = indexOfLayerName; i > 0; i--) {
+        layerNames[i] = layerNames[i - 1];
+    }
+    layerNames[0] = layerName;
+
+    // in html
+//    var htmlContentToMove = layers[layerName].outerHTML;
+//    document.getElementById("canvas-container").innerHTML
+//        = document.getElementById("canvas-container").innerHTML.replace(htmlContentToMove, "")
+//            + htmlContentToMove;
+            
+}
+
 function updateCurrentLayer(layerName) {
     if (layers[layerName] !== undefined) {
+        MoveLayerToTop(layerName);
         currentLayer = layers[layerName];
+        currentContext = canvasContexts[layerName];
+        updeteLayerControlDiv();
     }
 }
 
@@ -155,6 +170,7 @@ function deleteLayer(layerToDelete) {
             = document.getElementById("canvas-container").innerHTML.replace(textToRemove, "");
 
         layers[layerToDelete] = undefined;
+        canvasContexts[layerToDelete] = undefined;
 
         updeteLayerControlDiv();
     }
@@ -195,7 +211,6 @@ function handleMouseDown(event) {
 // initialize
 window.onload = function () {
     fillGeneralOptionsDiv();
-    createBackgroundCanvas();
     fillPluginSelector();
 
     updateCurrentPlugin();
@@ -203,7 +218,6 @@ window.onload = function () {
 
     addNewLayer("Layer1");
     updateCurrentLayer("Layer1");
-    updeteLayerControlDiv(); // used again, to mark the selected layer as selected
 
     document.getElementById("canvas-container").onmousemove = handleMouseMove;
     document.getElementById("canvas-container").onmouseup = handleMouseUp;

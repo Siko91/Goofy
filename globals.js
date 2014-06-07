@@ -4,6 +4,7 @@ var mousePosionX; // will be initialized in the engine. A Number
 var mousePosionY; // will be initialized in the engine. A Number
 
 var currentLayer; // will be initialized in the engine. A Canvas
+var currentContext; // will be initialized in the engine. A Canvas 2D context
 
 var currentLineWidth; // will be initialized in the engine. A number
 var currentStrokeColor; // will be initialized in the engine. A color string
