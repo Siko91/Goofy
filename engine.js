@@ -234,6 +234,10 @@ function handleMouseMove(event) {
     }
 }
 
+function handleMouseUpInWindow() {
+    mousePressed = false;
+}
+
 function handleMouseUp(event) {
     mousePressed = false;
     if (currentTool.onMouseUp !== null && currentTool.onMouseUp !== undefined) {
@@ -262,4 +266,6 @@ window.onload = function () {
     document.getElementById("canvas-container").onmousemove = handleMouseMove;
     document.getElementById("canvas-container").onmouseup = handleMouseUp;
     document.getElementById("canvas-container").onmousedown = handleMouseDown;
+
+    window.onmouseup = handleMouseUpInWindow;
 }
