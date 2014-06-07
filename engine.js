@@ -9,7 +9,6 @@ var layers = {},
 function fillGeneralOptionsDiv() {
     document.getElementById("general-options").innerHTML
         += "<header><h1>general options</h1></header>"
-<<<<<<< HEAD
         + "<span id='mouse-position-tracker'></span>"
         
         + "<div class='group'><label for='line-width-input'>Line width:</label>"
@@ -32,20 +31,9 @@ function fillGeneralOptionsDiv() {
         
         + "<div class='group'><label for='plugin-selector'>Active Plugin: </label>"
         + "<select id='plugin-selector' onchange='updateCurrentPlugin()'></select></div>"
+
         + "<button onclick='clearCurrentLayer()' >Clear Layer</button> "
         + "<button onclick='getImageButtonClicked()' >Get Image</button>";
-=======
-        + "<span id=\"mouse-position-tracker\"></span>"
-        + "<div class=\"group\"><label for=\"line-width-input\">Line width:</label>"
-        + "<input type=\"number\" id=\"line-width-input\" onchange=\"updateCurrentSettings()\" value=\"3\"/></div>"
-        + "<div class=\"group\"><label for=\"stroke-color-input\">Stroke:</label>"
-        + "<input type=\"color\" name=\"name\" id=\"stroke-color-input\" onchange=\"updateCurrentSettings()\" /></div>"
-        + "<div class=\"group\"><label for=\"fill-color-input\">Fill:</label>"
-        + "<input type=\"color\" name=\"name\" id=\"fill-color-input\" value=\"#FFFFFF\" onchange=\"updateCurrentSettings()\" /></div>"
-        + "<div class=\"group\"><label for=\"plugin-selector\">Active Plugin: </label>"
-        + "<select id=\"plugin-selector\" onchange=\"updateCurrentPlugin()\"></select></div>"
-        + "<button onclick=\"getCanvasImage()\" >Get Image</button>";
->>>>>>> 5361fda4f8ff5bd5a0e467afee298800e7280957
 }
 
 function fillPluginSelector() {
@@ -67,7 +55,6 @@ function clearCurrentLayer() {
 
 function updateCurrentSettings() {
     currentLineWidth = document.getElementById("line-width-input").value;
-<<<<<<< HEAD
 
     var strokeOpacity = document.getElementById("stroke-opacity-input").value / 100;
     var fillOpacity = document.getElementById("fill-opacity-input").value / 100;
@@ -86,10 +73,6 @@ function updateCurrentSettings() {
 
     currentStrokeColor = ConvertToRGBA(strokeColorInput, strokeOpacity);
     currentFillColor = ConvertToRGBA(fillColorInput, fillOpacity);
-=======
-    currentStrokeColor = document.getElementById("stroke-color-input").value;
-    currentFillColor = document.getElementById("fill-color-input").value;
->>>>>>> 5361fda4f8ff5bd5a0e467afee298800e7280957
 }
 
 function updateCurrentPlugin() {
@@ -121,11 +104,7 @@ function LoadToolBox() {
     for (var i = 0; i < currentPlugin.toolBox.tools.length; i++) {
         var tool = currentPlugin.toolBox.tools[i];
         htmlContent += "<button onclick=\"updateCurrentTool('" + tool.name + "')\" "
-<<<<<<< HEAD
-            + ((tool===currentTool)? "class='currentTool'" : "")
-=======
             + ((tool===currentTool)? "class=\"currentTool\"" : "")
->>>>>>> 5361fda4f8ff5bd5a0e467afee298800e7280957
             + " >"
             + tool.name
             + "</button>";
