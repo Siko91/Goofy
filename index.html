@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Canvas Painter</title>
+	<link rel="stylesheet" type="text/css" href="styles/style.css"/>
+</head>
+<body>
+	<div id="wrapper">
+	    <div id="general-options"></div>
+	    <div id="tool-options"></div>
+        <div id="tool-box"></div>
+	    <div id="canvas-container" style="position: relative; display: inline-block; width: 800px; height: 500px;"></div>
+	    <div id="layer-options"></div>
+    
+        <script src="globals.js" type="text/javascript"></script>
+        <script src="engine.js" type="text/javascript"></script>
+
+        <div id="plugin-scripts">
+		    /* plugin scripts will be loaded only here ! */
+
+            <script src="plugins/TestPlugin/TestPlugin.js" type="text/javascript"></script>
+            <script src="plugins/TestPlugin2/TestPlugin2.js" type="text/javascript"></script>
+        </div>
+    </div>
+</body>
+<footer>
+</footer>
+</html>
