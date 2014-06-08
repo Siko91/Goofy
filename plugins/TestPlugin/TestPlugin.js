@@ -1,4 +1,4 @@
-var testPen = makeToolObj("testPen", null, testPenDraw, null, loadPenContextMenu);
+var testPen = makeToolObj("testPen", null, testPenDraw, null, loadPenContextMenu, 5);
 var testCircleMaker = makeToolObj("testCircleMaker", testMakeCircle, null, null, loadCircleContextMenu);
 
 var testPluginTools = [testPen, testCircleMaker];

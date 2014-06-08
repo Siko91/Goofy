@@ -65,9 +65,9 @@ function loadClickRectContextMenu() {
     var header = "ClickRect Options"
     var htmlToInsert = 
         "<label for=\"rect-width-input\">Width: </label>"
-        + "<input type=\"number\" id=\"rect-width-input\" value=\"50\"/>"
+        + "<input type=\"number\" id=\"rect-width-input\" value=\"80\"/>"
         + "<label for=\"rect-haight-input\">Haight: </label>"
-        + "<input type=\"number\" id=\"rect-haight-input\" value=\"20\"/>";
+        + "<input type=\"number\" id=\"rect-haight-input\" value=\"50\"/>";
     updateToolOptions(header, htmlToInsert);
 }
 

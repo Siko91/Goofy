@@ -24,14 +24,15 @@ var currentTool; // will be initialized in the engine. A Tool Object
 
 // objectMakers
 
-var makeToolObj = function(name, onMouseDawn, onMouseMove, onMouseUp, onToolChoice) {
+var makeToolObj = function (name, onMouseDawn, onMouseMove, onMouseUp, onToolChoice, initialLineWidth) {
 	return {
 		name: name,
 		onMouseDown: onMouseDawn, // a function that will be called on mouse button press
 		onMouseMove: onMouseMove, // a function that will be called on mouse move
 		onMouseUp: onMouseUp, // a function that will be called on mouse button release
-		onToolChoice: onToolChoice // a function that will be called when the tool is chosen. Used to update the innerHTML of the context menu
-	};
+		onToolChoice: onToolChoice, // a function that will be called when the tool is chosen. Used to update the innerHTML of the context menu
+		initialLineWidth: initialLineWidth
+    };
 }
 
 function makeToolBoxObj(tools) {

@@ -98,6 +98,12 @@ function updateCurrentTool(name) {
             if (currentTool.onToolChoice !== null && currentTool.onToolChoice !== undefined) {
                 currentTool.onToolChoice();
             }
+            // change line width
+            if (typeof currentTool.initialLineWidth === "number"
+                && currentTool.initialLineWidth > 0) {
+                document.getElementById("line-width-input").value = currentTool.initialLineWidth;
+                updateCurrentSettings();
+            }
         }
     }
 }
