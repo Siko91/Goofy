@@ -17,8 +17,8 @@ function makeRectOnClick(event) {
     currentContext.strokeStyle = currentStrokeColor;
 
     currentContext.rect(
-        mousePosionX - width / 2,
-        mousePosionY - height / 2,
+        mousePositionX - width / 2,
+        mousePositionY - height / 2,
         width, 
         height);
 
@@ -28,20 +28,20 @@ function makeRectOnClick(event) {
 
 function startDragRect() {
     updateToolOptions("DrawRect Options", "Great! Now drag around and release.");
-    customPositionX = mousePosionX;
-    customPositionY = mousePosionY;
+    customPositionX = mousePositionX;
+    customPositionY = mousePositionY;
 }
 
 function drawDraggedRect() {
     updateToolOptions("DrawRect Options", "Great! Now drag around and release.");
-    var width = Math.abs(customPositionX - mousePosionX);
-    var height = Math.abs(customPositionY - mousePosionY);
+    var width = Math.abs(customPositionX - mousePositionX);
+    var height = Math.abs(customPositionY - mousePositionY);
 
-    if (customPositionX > mousePosionX) {
-        customPositionX = mousePosionX;
+    if (customPositionX > mousePositionX) {
+        customPositionX = mousePositionX;
     }
-    if (customPositionY > mousePosionY) {
-        customPositionY = mousePosionY;
+    if (customPositionY > mousePositionY) {
+        customPositionY = mousePositionY;
     }
 
     currentContext.beginPath();

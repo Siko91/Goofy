@@ -95,14 +95,15 @@ function updateCurrentTool(name) {
             currentTool = tools[i];
             LoadToolBox();
             document.getElementById("tool-options").innerHTML = "No optins available for this tool";
-            if (currentTool.onToolChoice !== null && currentTool.onToolChoice !== undefined) {
-                currentTool.onToolChoice();
-            }
             // change line width
             if (typeof currentTool.initialLineWidth === "number"
                 && currentTool.initialLineWidth > 0) {
                 document.getElementById("line-width-input").value = currentTool.initialLineWidth;
                 updateCurrentSettings();
+            }
+            // onToolChoice
+            if (currentTool.onToolChoice !== null && currentTool.onToolChoice !== undefined) {
+                currentTool.onToolChoice();
             }
         }
     }
@@ -223,20 +224,20 @@ function deleteLayer(layerToDelete) {
 }
 
 function handleMouseMove(event) {
-    prevousPosionX = mousePosionX;
-    prevousPosionY = mousePosionY;
+    prevousPositionX = mousePositionX;
+    prevousPositionY = mousePositionY;
 
     var hiddenLeftPixels = document.all ? iebody.scrollLeft : pageXOffset;
     var hiddenTopPixels = document.all ? iebody.scrollTop : pageYOffset;
 
-    mousePosionX = event.clientX
+    mousePositionX = event.clientX
         - document.getElementById("canvas-container").offsetLeft
         + hiddenLeftPixels;
-    mousePosionY = event.clientY
+    mousePositionY = event.clientY
         - document.getElementById("canvas-container").offsetTop
         + hiddenTopPixels;
 
-    document.getElementById("mouse-position-tracker").innerHTML = mousePosionX + ", " + mousePosionY;
+    document.getElementById("mouse-position-tracker").innerHTML = mousePositionX + ", " + mousePositionY;
     if (currentTool.onMouseMove !== null && currentTool.onMouseMove !== undefined) {
         currentTool.onMouseMove();
     }
