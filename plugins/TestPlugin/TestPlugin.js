@@ -14,7 +14,7 @@ function testMakeCircle(event) {
     currentContext.lineWidth = currentLineWidth;
     currentContext.fillStyle = currentFillColor;
     currentContext.strokeStyle = currentStrokeColor;
-    currentContext.arc(mousePosionX, mousePosionY, radius, 0, 2 * Math.PI);
+    currentContext.arc(mousePositionX, mousePositionY, radius, 0, 2 * Math.PI);
     currentContext.fill();
     currentContext.stroke();
 }
@@ -25,8 +25,8 @@ function testPenDraw() {
         currentContext.lineCap = 'round';
         currentContext.strokeStyle = currentStrokeColor;
         currentContext.beginPath();
-        currentContext.moveTo(prevousPosionX, prevousPosionY);
-        currentContext.lineTo(mousePosionX, mousePosionY);
+        currentContext.moveTo(prevousPositionX, prevousPositionY);
+        currentContext.lineTo(mousePositionX, mousePositionY);
         currentContext.stroke();
         currentContext.closePath();
     }

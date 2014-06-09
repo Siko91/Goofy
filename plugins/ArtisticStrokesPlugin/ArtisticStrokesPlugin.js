@@ -35,41 +35,41 @@ function getDistanceBetwenn2DPoints(x1, y1, x2, y2) {
 function roundBrushDraw() {
     if (mousePressed) {
         drawLineWithCusumWidthAndColor(currentLineWidth, getColorWithSetOpacity(currentStrokeColor, 0.01));
-        drawLineWithCusumWidthAndColor(currentLineWidth * 0.6, getColorWithSetOpacity(currentStrokeColor, 0.02), prevousPosionX, prevousPosionY, mousePosionX, mousePosionY);
-        drawLineWithCusumWidthAndColor(currentLineWidth * 0.4, getColorWithSetOpacity(currentStrokeColor, 0.02), prevousPosionX, prevousPosionY, mousePosionX, mousePosionY);
-        drawLineWithCusumWidthAndColor(currentLineWidth * 0.2, getColorWithSetOpacity(currentStrokeColor, 0.02), prevousPosionX, prevousPosionY, mousePosionX, mousePosionY);
-        drawLineWithCusumWidthAndColor(currentLineWidth * 0.2, getColorWithSetOpacity(currentStrokeColor, 0.05), prevousPosionX, prevousPosionY, mousePosionX, mousePosionY);
-        drawLineWithCusumWidthAndColor(currentLineWidth * 0.1, getColorWithSetOpacity(currentStrokeColor, 0.01), prevousPosionX, prevousPosionY, mousePosionX, mousePosionY);
+        drawLineWithCusumWidthAndColor(currentLineWidth * 0.6, getColorWithSetOpacity(currentStrokeColor, 0.02), prevousPositionX, prevousPositionY, mousePositionX, mousePositionY);
+        drawLineWithCusumWidthAndColor(currentLineWidth * 0.4, getColorWithSetOpacity(currentStrokeColor, 0.02), prevousPositionX, prevousPositionY, mousePositionX, mousePositionY);
+        drawLineWithCusumWidthAndColor(currentLineWidth * 0.2, getColorWithSetOpacity(currentStrokeColor, 0.02), prevousPositionX, prevousPositionY, mousePositionX, mousePositionY);
+        drawLineWithCusumWidthAndColor(currentLineWidth * 0.2, getColorWithSetOpacity(currentStrokeColor, 0.05), prevousPositionX, prevousPositionY, mousePositionX, mousePositionY);
+        drawLineWithCusumWidthAndColor(currentLineWidth * 0.1, getColorWithSetOpacity(currentStrokeColor, 0.01), prevousPositionX, prevousPositionY, mousePositionX, mousePositionY);
     }
 }
 
 function setFirstPointOfSmoothPen() {
     customVariable = [];
-    customVariable.push({ x: mousePosionX, y: mousePosionY });
-    customPositionX = mousePosionX;
-    customPositionY = mousePosionY;
+    customVariable.push({ x: mousePositionX, y: mousePositionY });
+    customPositionX = mousePositionX;
+    customPositionY = mousePositionY;
 }
 
 function setAPointOfSmoothPen() {
     if (mousePressed) {
         var minDistanceBetweenPoints = document.getElementById("min-distance-input").value;
 
-        drawLineWithCusumWidthAndColor(1, getColorWithSetOpacity(currentStrokeColor, 0.05), prevousPosionX, prevousPosionY, mousePosionX, mousePosionY);
-//        drawLineWithCusumWidthAndColor(1, getColorWithSetOpacity('rgba(0,255,0,1)', 0.3), prevousPosionX, prevousPosionY, mousePosionX, mousePosionY);
+        drawLineWithCusumWidthAndColor(1, getColorWithSetOpacity(currentStrokeColor, 0.05), prevousPositionX, prevousPositionY, mousePositionX, mousePositionY);
+//        drawLineWithCusumWidthAndColor(1, getColorWithSetOpacity('rgba(0,255,0,1)', 0.3), prevousPositionX, prevousPositionY, mousePositionX, mousePositionY);
 
         if (getDistanceBetwenn2DPoints(
-                mousePosionX,
-                mousePosionY,
+                mousePositionX,
+                mousePositionY,
                 customPositionX,
                 customPositionY)
                 > minDistanceBetweenPoints) {
 
-            drawLineWithCusumWidthAndColor(1, getColorWithSetOpacity(currentStrokeColor, 0.05), customPositionX, customPositionY, mousePosionX, mousePosionY);
-//            drawLineWithCusumWidthAndColor(1, getColorWithSetOpacity('rgba(255,0,0,1)', 0.3), customPositionX, customPositionY, mousePosionX, mousePosionY);
-            customVariable.push({ x: mousePosionX, y: mousePosionY });
+            drawLineWithCusumWidthAndColor(1, getColorWithSetOpacity(currentStrokeColor, 0.05), customPositionX, customPositionY, mousePositionX, mousePositionY);
+//            drawLineWithCusumWidthAndColor(1, getColorWithSetOpacity('rgba(255,0,0,1)', 0.3), customPositionX, customPositionY, mousePositionX, mousePositionY);
+            customVariable.push({ x: mousePositionX, y: mousePositionY });
 
-            customPositionX = mousePosionX;
-            customPositionY = mousePosionY;
+            customPositionX = mousePositionX;
+            customPositionY = mousePositionY;
         }
     }
 }
