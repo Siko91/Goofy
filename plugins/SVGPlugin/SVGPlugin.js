@@ -18,7 +18,7 @@ function animateTheSVG(event) {
     document.getElementById("mouse-position-tracker").innerHTML = customPositionX + ", " + customPositionY;
 
     positionEye(customVariable.leftEye, 5, 115, 190);
-    positionEye(customVariable.rightEye, 8, 225, 205);
+    positionEye(customVariable.rightEye, 12, 225, 205);
 
     customVariable.fly.attr({
         x: customPositionX-15,
