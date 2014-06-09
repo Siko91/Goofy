@@ -8,7 +8,7 @@ addPluginObj(colorPickerPlugin);
 
 function pickColor()
 {
-	var currentPixel = currentContext.getImageData(mousePositionX, mousePostiionY, 1, 1).data;
+	var currentPixel = currentContext.getImageData(mousePositionX, mousePositionY, 1, 1).data;
 	var hexColor = '#' + componentToHex(currentPixel[0]) + componentToHex(currentPixel[1]) + componentToHex(currentPixel[2]); //convertRgbToHex(currentPixel[0], currentPixel[1], currentPixel[2]);
 	var colorField = document.getElementById('picked-color');
 	colorField.value = hexColor;
