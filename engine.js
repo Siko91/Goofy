@@ -6,6 +6,7 @@ var layers = {},
     canvasContexts = {};
 
 // initialize functions (used only once)
+
 function fillGeneralOptionsDiv() {
     document.getElementById("general-options").innerHTML
         += "<header><h1>general options</h1></header>"
@@ -33,7 +34,7 @@ function fillGeneralOptionsDiv() {
         + "<select id='plugin-selector' onchange='updateCurrentPlugin()'></select></div>"
 
         + "<button onclick='clearCurrentLayer()' >Clear Layer</button> "
-        + "<button onclick='getImageButtonClicked()' >Get Image</button>";
+        + "<button onclick='getCanvasImage()' >Get Image</button>";
 }
 
 function fillPluginSelector() {
@@ -45,8 +46,18 @@ function fillPluginSelector() {
 }
 
 // common functions (used all the time)
+
 function getCanvasImage() {
-    alert("not implemented yet!");
+    var combinedLayer = document.createElement("canvas");
+    combinedLayer.style = "padding: 0px; margin: 0px; border: 0px none; background: none repeat scroll 0% 0% transparent; position: absolute; top: 0px; left: 0px;";
+    combinedLayer.width = 800;
+    combinedLayer.height = 500;
+    var combinedContext = combinedLayer.getContext('2d');
+
+    for (var i = layerNames.length-1; i >= 0; i--) {
+        combinedContext.drawImage(layers[layerNames[i]], 0, 0);
+    }
+    window.open(combinedLayer.toDataURL());
 }
 
 function clearCurrentLayer() {
