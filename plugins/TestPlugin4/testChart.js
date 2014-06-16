@@ -1,4 +1,4 @@
-﻿
+
 var testChartMaker = makeToolObj("Chart", getChartValue, null, null, loadChartContextMenu);
 
 var testChartTools = [testChartMaker];
@@ -79,8 +79,8 @@ function Chart(values) {
 function loadChartContextMenu() {
     var header = "Enter Chart Value"
     var htmlToInsert =
-        "<label for=\"chartValues\">Rect Char</label>"+
+        "<label for=\"chartValues\">Rect Char</label>" +
         "<input type=\"number\" max=\"100\" id=\"chartValues\"/>";
-        
+
     updateToolOptions(header, htmlToInsert);
 }

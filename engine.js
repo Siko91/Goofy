@@ -133,7 +133,7 @@ function getCanvasImage() {
     for (var i = layerNames.length-1; i >= 0; i--) {
         combinedContext.drawImage(layers[layerNames[i]], 0, 0);
     }
-    window.open(combinedLayer.toDataURL());
+    window.open($combinedLayer[0].toDataURL());
 }
 
 function clearCurrentLayer() {
