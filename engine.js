@@ -8,51 +8,127 @@ var layers = {},
 // initialize functions (used only once)
 
 function fillGeneralOptionsDiv() {
-    document.getElementById("general-options").innerHTML
-        += "<header><h1>general options</h1></header>"
-        + "<span id='mouse-position-tracker'></span>"
-        
-        + "<div class='group'><label for='line-width-input'>Line width:</label>"
-        + "<input type='number' id='line-width-input' onchange='updateCurrentSettings()' value='3'/></div>"
-        
-        + "<div class='group'><label for='stroke-color-input'>Stroke:</label>"
-        + "<input type='color' name='name' id='stroke-color-input' onchange='updateCurrentSettings()' /></div>"
 
-        + "<div class='group'><label for='fill-color-input'>Fill:</label>"
-        + "<input type='color' name='name' id='fill-color-input' value='#FFFFFF' onchange='updateCurrentSettings()' /></div>"
+    function makeGroup($nodes) {
+        return $('<div />')
+            .addClass('group')
+            .append($nodes);
+    }
+    
+    var $generalOptionsFragment = $(document.createDocumentFragment());
 
-        + "<div class='group'>"
-        + "<label for='stroke-color-input'>Stroke Opacity:</label>"
-        + "<input type='range' id='stroke-opacity-input' min='0' max='100' value='100' step='2' onchange='updateCurrentSettings()' />"
-        + "</div>"
-        + "<div class='group'>"
-        + "<label for='fill-color-input'> Fill Opacity:</label>"
-        + "<input type='range' id='fill-opacity-input' min='0' max='100' value='100' step='2' onchange='updateCurrentSettings()' />"
-        + "</div>"
-        
-        + "<div class='group'><label for='plugin-selector'>Active Plugin: </label>"
-        + "<select id='plugin-selector' onchange='updateCurrentPlugin()'></select></div>"
+    $('<header />')
+        .append('<h1>general options</h1>')
+        .appendTo($generalOptionsFragment);
 
-        + "<button onclick='clearCurrentLayer()' >Clear Layer</button> "
-        + "<button onclick='getCanvasImage()' >Get Image</button>";
+    $('<span id="mouse-position-tracker" />')
+        .appendTo($generalOptionsFragment);
+
+    var $lineWidthLabel = $('<label />')
+        .append(' Line Width: ')
+        .attr('for', 'line-width-input');
+    var $lineWidthInput = $('<input />')
+        .attr('id', 'line-width-input')
+        .attr('type', 'number')
+        .attr('min', '0')
+        .attr('value', '1')
+        .change(updateCurrentSettings);
+    $generalOptionsFragment.append(makeGroup([$lineWidthLabel, $lineWidthInput]))
+
+
+    var $strokeColorLabel = $('<label />')
+        .append(' Stroke Color: ')
+        .attr('for', 'stroke-color-input');
+    var $strokeColorInput = $('<input />')
+        .attr('id', 'stroke-color-input')
+        .attr('type', 'color')
+        .attr('value', '#000000')
+        .change(updateCurrentSettings);
+    $generalOptionsFragment.append(makeGroup([$strokeColorLabel, $strokeColorInput]))
+
+
+    var $fillColorLabel = $('<label />')
+        .append(' Fill Color: ')
+        .attr('for', 'fill-color-input');
+    var $fillColorInput = $('<input />')
+        .attr('id', 'fill-color-input')
+        .attr('type', 'color')
+        .attr('value', '#ff0000')
+        .change(updateCurrentSettings);
+    $generalOptionsFragment.append(makeGroup([$fillColorLabel, $fillColorInput]))
+
+
+    var $strokeOpacityLabel = $('<label />')
+        .append(' Stroke Opacity: ')
+        .attr('for', 'stroke-opacity-input');
+    var $strokeOpacityInput = $('<input />')
+        .attr('id', 'stroke-opacity-input')
+        .attr('type', 'range')
+        .attr('min', '0')
+        .attr('max', '100')
+        .attr('value', '100')
+        .attr('step', '1')
+        .change(updateCurrentSettings);
+    $generalOptionsFragment.append(makeGroup([$strokeOpacityLabel, $strokeOpacityInput]))
+
+    var $fillOpacityLabel = $('<label />')
+        .append(' Fill Opacity: ')
+        .attr('for', 'fill-opacity-input');
+    var $fillOpacityInput = $('<input />')
+        .attr('id', 'fill-opacity-input')
+        .attr('type', 'range')
+        .attr('min', '0')
+        .attr('max', '100')
+        .attr('value', '100')
+        .attr('step', '1')
+        .change(updateCurrentSettings);
+    $generalOptionsFragment.append(makeGroup([$fillOpacityLabel, $fillOpacityInput]))
+
+    var $pluginSelectorLabel = $('<label />')
+        .append(' Active Plugin: ')
+        .attr('for', 'plugin-selector');
+    var $pluginSelector = $('<select />')
+        .attr('id', 'plugin-selector')
+        .change(updateCurrentPlugin);
+    $generalOptionsFragment.append(makeGroup([$pluginSelectorLabel, $pluginSelector]))
+
+    $('<button />')
+        .append('Clear Layer')
+        .click(clearCurrentLayer)
+        .appendTo($generalOptionsFragment);
+
+    $('<button />')
+        .append('Get Image')
+        .click(getCanvasImage)
+        .appendTo($generalOptionsFragment);
+
+    $('#general-options').append($generalOptionsFragment);
 }
 
 function fillPluginSelector() {
-    var pluginSelector = document.getElementById("plugin-selector");
-    pluginSelector.innerHTML = "";
+    var $pluginSelector = $("#plugin-selector");
     for (var i = 0; i < plugins.length; i++) {
-        pluginSelector.innerHTML += "<option>" + plugins[i].name + "</option>";
+        $('<option/>')
+            .append(plugins[i].name)
+            .appendTo($pluginSelector);
     }
 }
 
 // common functions (used all the time)
 
 function getCanvasImage() {
-    var combinedLayer = document.createElement("canvas");
-    combinedLayer.style = "padding: 0px; margin: 0px; border: 0px none; background: none repeat scroll 0% 0% transparent; position: absolute; top: 0px; left: 0px;";
-    combinedLayer.width = 800;
-    combinedLayer.height = 500;
-    var combinedContext = combinedLayer.getContext('2d');
+    var $combinedLayer = $('<canvas />')
+        .css('padding', '0')
+        .css('margin', '0')
+        .css('border', '0px none')
+        .css('background', 'none repeat scroll 0% 0% transparent')
+        .css('position', 'absolute')
+        .css('top', '0px')
+        .css('left', '0px')
+        .attr('width', '800')
+        .attr('height', '500');
+
+    var combinedContext = $combinedLayer[0].getContext('2d');
 
     for (var i = layerNames.length-1; i >= 0; i--) {
         combinedContext.drawImage(layers[layerNames[i]], 0, 0);
@@ -65,13 +141,13 @@ function clearCurrentLayer() {
 }
 
 function updateCurrentSettings() {
-    currentLineWidth = document.getElementById("line-width-input").value;
+    currentLineWidth = $("#line-width-input").val();
 
-    var strokeOpacity = document.getElementById("stroke-opacity-input").value / 100;
-    var fillOpacity = document.getElementById("fill-opacity-input").value / 100;
+    var strokeOpacity = $("#stroke-opacity-input").val() / 100;
+    var fillOpacity = $("#fill-opacity-input").val() / 100;
 
-    var strokeColorInput = document.getElementById("stroke-color-input").value.toLowerCase();
-    var fillColorInput = document.getElementById("fill-color-input").value.toLowerCase();
+    var strokeColorInput = $("#stroke-color-input").val().toLowerCase();
+    var fillColorInput = $("#fill-color-input").val().toLowerCase();
 
     function ConvertToRGBA(color, opacity) {
         var hexSymbols = [1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f"];
@@ -87,31 +163,39 @@ function updateCurrentSettings() {
 }
 
 function updateCurrentPlugin() {
-    var selectedIndex = document.getElementById("plugin-selector").selectedIndex;
+    var selectedIndex = $("#plugin-selector")[0].selectedIndex;
 
     currentPlugin = plugins[selectedIndex];
     currentTool = currentPlugin.toolBox.tools[0];
-    updateCurrentTool(currentPlugin.toolBox.tools[0].name)
+    updateCurrentTool(null, currentPlugin.toolBox.tools[0].name)
 }
 
-function updateCurrentTool(name) {
+function updateCurrentTool(ev, toolName) {
+    if (!toolName) {
+        toolName = this.value;
+    }
+
     var tools = currentPlugin.toolBox.tools;
     for (var i = 0; i < tools.length; i++) {
-        if (tools[i].name === name) {
+        if (tools[i].name === toolName) {
+
             // clear custum vars
             customPositionX = NaN;
             customPositionY = NaN;
             customVariable = undefined;
+
             // update the tool
             currentTool = tools[i];
             LoadToolBox();
-            document.getElementById("tool-options").innerHTML = "No optins available for this tool";
+            $("#tool-options").append("No optins available for this tool");
+            
             // change line width
             if (typeof currentTool.initialLineWidth === "number"
                 && currentTool.initialLineWidth > 0) {
-                document.getElementById("line-width-input").value = currentTool.initialLineWidth;
+                $("#line-width-input").val(currentTool.initialLineWidth);
                 updateCurrentSettings();
             }
+
             // onToolChoice
             if (currentTool.onToolChoice !== null && currentTool.onToolChoice !== undefined) {
                 currentTool.onToolChoice();
@@ -121,67 +205,119 @@ function updateCurrentTool(name) {
 }
 
 function LoadToolBox() {
-    var toolBox = document.getElementById("tool-box");
-    var htmlContent = "<header><h2>" + currentPlugin.name + "</h2></header>";
+    var $toolBox = $("#tool-box");
+
+    var $toolsFragment = $(document.createDocumentFragment());
+
+    $('<header />')
+        .append('<h2>' + currentPlugin.name + '</h2>')
+        .appendTo($toolsFragment);
 
     for (var i = 0; i < currentPlugin.toolBox.tools.length; i++) {
         var tool = currentPlugin.toolBox.tools[i];
-        htmlContent += "<button onclick=\"updateCurrentTool('" + tool.name + "')\" "
-            + ((tool===currentTool)? "class=\"currentTool\"" : "")
-            + " >"
-            + tool.name
-            + "</button>";
+
+        var $toolBtn = $('<button />')
+            .append(tool.name)
+            .val(tool.name)
+            .click(updateCurrentTool)
+            .appendTo($toolsFragment);
+
+        if (tool === currentTool) {
+            $toolBtn.addClass('currentTool');
+        }
     }
 
-    toolBox.innerHTML = htmlContent;
+    $toolBox.find('*').remove();
+    $toolBox.append($toolsFragment);
 }
 
 function updeteLayerControlDiv() {
-    var htmlContent = "<header><h1>layer options</h1></header>"
-    + "<table><thead><tr>"
-    + "<th>Select & Move Top</th>"
-    + "<th>Layer Name</th>"
-    + "<th>Delete</th>"
-    + "</tr></thead><tbody>"
+
+    var $layerControlFragment = $(document.createDocumentFragment());
+
+    $('<header />')
+        .append('<h1>layer options</h1>')
+        .appendTo($layerControlFragment);
+
+    var $table = $('<table />')
+        .appendTo($layerControlFragment);
+    var $thead = $('<thead />')
+        .appendTo($table);
+    var $thRow = $('<tr />')
+        .appendTo($thead);
+
+    $('<th />')
+        .append('Select & Move Top')
+        .appendTo($thRow);
+    $('<th />')
+        .append('Name')
+        .appendTo($thRow);
+    $('<th />')
+        .append('Delete')
+        .appendTo($thRow);
 
     for (var index = 0; index < layerNames.length; index++) {
         var layerName = layerNames[index];
-        
-        htmlContent +=
-            "<tr>"
-                + "<td>"
-                    + "<button "
-                        + "onClick=\"updateCurrentLayer('" + layerName + "')\" "
-                        + (layers[layerName] === currentLayer ? "checked" : "")
-                        + ">Select</button></td>"
-    		    + "<td>" + layerName + "</td>"
-    		    + "<td>"
-                    + "<button "
-                        + "onclick=\"deleteLayer('" + layerName + "')\" >Delete</button>" + "</td>"
-    		+ "</tr>";
-    }
-    htmlContent += "</tbody></table><br/><br/>"
-    + "<input type=\"text\" placeholder=\"\" id=\"new-layer-name-input\"/>"
-    + "<button onclick=\"addNewLayer()\" >Add new layer</button>";
 
-    document.getElementById("layer-options").innerHTML = htmlContent;
+        var $tRow = $('<tr />')
+        .appendTo($table);
+
+        var $selectBtn = $('<button />')
+            .val(layerName)
+            .click(updateCurrentLayer)
+            .append('Select');
+
+        var $deleteBtn = $('<button />')
+            .val(layerName)
+            .click(deleteLayer)
+            .append('Delete');
+
+        $('<td />')
+            .append($selectBtn)
+            .appendTo($tRow);
+        $('<td />')
+            .append(layerName)
+            .appendTo($tRow);
+        $('<td />')
+            .append($deleteBtn)
+            .appendTo($tRow);
+    }
+
+    $('<input />')
+        .attr('id', 'new-layer-name-input')
+        .attr('type', 'text')
+        .attr('placeholder', 'Name of new layer')
+        .appendTo($layerControlFragment);
+
+    $('<button />')
+        .append('Add new layer')
+        .click(addNewLayer)
+        .appendTo($layerControlFragment);
+
+    $("#layer-options").find('*').remove();
+    $("#layer-options").append($layerControlFragment);
 }
 
-function addNewLayer(layerName) {
+function addNewLayer(ev, layerName) {
     if (layerName === undefined) {
-        layerName = document.getElementById("new-layer-name-input").value;
+        layerName = $("#new-layer-name-input").val();
     }
 
     if (layers[layerName] === undefined) {
-        var newLayer = document.createElement("canvas");
-        newLayer.id = layerName + "-canvas";
-        newLayer.style = "padding: 0px; margin: 0px; border: 0px none; background: none repeat scroll 0% 0% transparent; position: absolute; top: 0px; left: 0px;";
-        newLayer.width = 800;
-        newLayer.height = 500;
-        newLayer.id = layerName + "-canvas";
-        document.getElementById("canvas-container").appendChild(newLayer);
+        var $newLayer = $('<canvas />')
+        .attr('id', layerName + "-canvas")
+        .css('padding', '0')
+        .css('margin', '0')
+        .css('border', '0px none')
+        .css('background', 'none repeat scroll 0% 0% transparent')
+        .css('position', 'absolute')
+        .css('top', '0px')
+        .css('left', '0px')
+        .attr('width', '800')
+        .attr('height', '500')
+        .appendTo("#canvas-container");
 
-        layers[layerName] = document.getElementById(layerName + "-canvas");
+        layers[layerName] = $newLayer[0];
         layerNames.push(layerName);
         canvasContexts[layerName] = layers[layerName].getContext('2d');
 
@@ -193,6 +329,9 @@ function addNewLayer(layerName) {
 }
 
 function MoveLayerToTop(layerName) {
+    if (!layerName) {
+        layerName = this.value();
+    }
     
     // in names
     var indexOfLayerName = layerNames.indexOf(layerName);
@@ -207,7 +346,10 @@ function MoveLayerToTop(layerName) {
     document.getElementById("canvas-container").appendChild(layerToMove);
 }
 
-function updateCurrentLayer(layerName) {
+function updateCurrentLayer(ev, layerName) {
+    if (!layerName) {
+        layerName = this.value;
+    }
     if (layers[layerName] !== undefined) {
         MoveLayerToTop(layerName);
         currentLayer = layers[layerName];
@@ -216,14 +358,17 @@ function updateCurrentLayer(layerName) {
     }
 }
 
-function deleteLayer(layerToDelete) {
+function deleteLayer(ev, layerToDelete) {
+    if (!layerToDelete) {
+        layerToDelete = this.value;
+    }
     if (layerNames.length > 1) {
         var layerNameIndex = layerNames.indexOf(layerToDelete);
         layerNames.splice(layerNameIndex, 1);
         if (currentLayer === layers[layerToDelete]) {
             updateCurrentLayer(layerNames[0]);
         }
-        layers[layerToDelete].outerHTML = "";
+        $(layers[layerToDelete]).remove();
         layers[layerToDelete] = undefined;
         canvasContexts[layerToDelete] = undefined;
 
@@ -248,12 +393,13 @@ function handleMouseMove(event) {
         - document.getElementById("canvas-container").offsetTop
         + hiddenTopPixels;
 
-    document.getElementById("mouse-position-tracker").innerHTML = mousePositionX + ", " + mousePositionY;
+    $("#mouse-position-tracker").html('');
+    $("#mouse-position-tracker").append(mousePositionX + ", " + mousePositionY);
+
     if (currentTool.onMouseMove !== null && currentTool.onMouseMove !== undefined) {
         currentTool.onMouseMove();
     }
 }
-
 function handleMouseUpInWindow() {
     mousePressed = false;
 }
@@ -280,8 +426,8 @@ window.onload = function () {
     updateCurrentPlugin();
     updateCurrentSettings();
 
-    addNewLayer("Layer1");
-    updateCurrentLayer("Layer1");
+    addNewLayer(null, "Layer1");
+    updateCurrentLayer(null, "Layer1");
 
     document.getElementById("canvas-container").onmousemove = handleMouseMove;
     document.getElementById("canvas-container").onmouseup = handleMouseUp;

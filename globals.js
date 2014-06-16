@@ -57,6 +57,6 @@ function addPluginObj(plugin) {
 }
 
 function updateToolOptions(header, htmlContent) {
-    htmlContent = "<header><h1>" + header + "</h1></header>" + htmlContent;
-    document.getElementById("tool-options").innerHTML = htmlContent;
+    var content = ("<header><h1>" + header + "</h1></header>" + htmlContent);
+    $("#tool-options").html(content);
 }

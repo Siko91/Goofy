@@ -65,7 +65,7 @@ input[type='range'] {
 }
 
 #tool-box {
-    width: 150px;
+    width: 130px;
     height: 500px;
     float: left;
     margin-left:1%;
@@ -79,6 +79,11 @@ input[type='range'] {
     margin-top: 15px;
 }
 
+#canvas-container {
+    position: relative;
+    left: -3%;
+    display: inline-block;
+}
 
 #layer-options table {
 	display: inline-block;
