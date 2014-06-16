@@ -7,14 +7,14 @@ var testChartToolBox = makeToolBoxObj(testChartTools);
 var testChartPlugin = makePluginObj("testChart", testChartToolBox);
 addPluginObj(testChartPlugin);
 
-var arr = [];
+var chartValues = [];
 function getChartValue() {
     var number = document.getElementById('chartValues').value | 0;
     if (number > 0 && number <= 100) {
-        arr.push(number);
+        chartValues.push(number);
     }
     currentContext.clearRect(30, 30, 500, 500);
-    var chart = new Chart(arr);
+    var chart = new Chart(chartValues);
     chart.drawChart();
 }
 
