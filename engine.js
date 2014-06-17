@@ -222,6 +222,8 @@ function LoadToolBox() {
             .click(updateCurrentTool)
             .appendTo($toolsFragment);
 
+        $('<br/>').insertAfter($toolBtn);
+
         if (tool === currentTool) {
             $toolBtn.addClass('currentTool');
         }
