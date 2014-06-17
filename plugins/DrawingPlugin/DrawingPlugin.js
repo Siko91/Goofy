@@ -1,7 +1,7 @@
 var freeFormPenTool = makeToolObj("Free Form Pen", null, freeFormPenDraw, null, loadFreeFormPenTool);
 
 var straightLineTool = makeToolObj("Straight Line", drawingPluginSetStartPoint, null, drawStrightLine, loadLineDrawingContextMenu);
-var lockedStraightLineTool = makeToolObj("Locked Straight Line", drawingPluginSetStartPoint, null, drawLockedStrightLine, loadLineDrawingContextMenu);
+var lockedStraightLineTool = makeToolObj("Locked Line", drawingPluginSetStartPoint, null, drawLockedStrightLine, loadLineDrawingContextMenu);
 
 var makePathTool = makeToolObj("Path", startDrawPath, null, drawNextPathLine, loadPathContextMenu);
 
@@ -12,7 +12,7 @@ var makeRectTool = makeToolObj("Rectangle", drawingPluginSetStartPoint, null, dr
 var makeCircleTool = makeToolObj("Circle", drawingPluginSetStartPoint, null, drawCircle, loadFigureDrawingContextMenu);
 var makeEllipseTool = makeToolObj("Ellipse", drawingPluginSetStartPoint, null, drawEllipse, loadFigureDrawingContextMenu);
 
-var addTextTool = makeToolObj("Add Text", setCoordinatesForTextTool, null, null, loadAddTextToolContextMenu);
+var addTextTool = makeToolObj("Add Text", setCoordinatesForTextTool, null, null, loadAddTextToolContextMenu, 1);
 
 var drawingPluginTools = [
     freeFormPenTool,
@@ -108,15 +108,51 @@ function drawNextPathLine() {
     drawingPluginSetStartPoint()
 }
 
-///////////////////////////////////////////////
 function quadraticCurveOnMousePress() {
-    alert("not implemented yet");
+    if (!customVariable.hasStartedDrawingQuadraticCurve) {
+        customVariable.from.x = mousePositionX;
+        customVariable.from.y = mousePositionY;
+
+        drawingPluginDrawLine(
+            mousePositionX,
+            mousePositionY,
+            mousePositionX-1,
+            mousePositionY-1
+            );
+    }
 }
 
 function quadraticCurveOnMouseRelease() {
-    alert("not implemented yet");
+    if (!customVariable.hasStartedDrawingQuadraticCurve) {
+        customVariable.to.x = mousePositionX;
+        customVariable.to.y = mousePositionY;
+
+        drawingPluginDrawLine(
+            mousePositionX,
+            mousePositionY,
+            mousePositionX-1,
+            mousePositionY-1
+            );
+        customVariable.hasStartedDrawingQuadraticCurve = true;
+    }
+    else {
+        customVariable.curvingPoint.x = mousePositionX;
+        customVariable.curvingPoint.y = mousePositionY;
+
+        currentContext.beginPath();
+        currentContext.moveTo(
+            customVariable.from.x,
+            customVariable.from.y);
+        currentContext.quadraticCurveTo(
+            customVariable.curvingPoint.x,
+            customVariable.curvingPoint.y,
+            customVariable.to.x,
+            customVariable.to.y);
+        currentContext.stroke();
+
+        customVariable.hasStartedDrawingQuadraticCurve = false;
+    }
 }
-///////////////////////////////////////////////
 
 function drawSquare() {
     var width = Math.abs(customPositionX - mousePositionX);
@@ -174,20 +210,20 @@ function drawRectangle() {
 function drawCircle() {
     var width = Math.abs(customPositionX - mousePositionX);
     var height = Math.abs(customPositionY - mousePositionY);
-    var radius = Math.max(width, height) / 2;
+    var radius = Math.min(width, height) / 2;
 
     if (customPositionX > mousePositionX) {
-        customPositionX = mousePositionX + width / 2;
+        customPositionX = customPositionX - radius;
     }
     else {
-        customPositionX = mousePositionX - width / 2;
+        customPositionX = customPositionX + radius;
     }
 
     if (customPositionY > mousePositionY) {
-        customPositionY = mousePositionY + height / 2;
+        customPositionY = customPositionY - radius;
     }
     else {
-        customPositionY = mousePositionY - height / 2;
+        customPositionY = customPositionY + radius
     }
 
     currentContext.beginPath();
@@ -242,11 +278,32 @@ function drawEllipse() {
     currentContext.stroke();
 }
 
-///////////////////////////////////////////////
 function setCoordinatesForTextTool() {
-    alert("not implemented yet");
+    document.getElementById('text-position-x-input').value = mousePositionX;
+    document.getElementById('text-position-y-input').value = mousePositionY;
 }
-///////////////////////////////////////////////
+
+function insertTextBtnClicked() {
+    var text = document.getElementById('text-input').value;
+    var positionX = parseInt(document.getElementById('text-position-x-input').value);
+    var positionY = parseInt(document.getElementById('text-position-y-input').value);
+    var fontSize = parseInt(document.getElementById('text-size-input').value) || 20;
+    var fontFamily = customVariable[document.getElementById('text-family-select').selectedIndex];
+
+    if (isNaN(positionX) || isNaN(positionY)) {
+        alert('invalid position');
+        return;
+    }
+    currentContext.lineWidth = currentLineWidth;
+    currentContext.lineCap = 'round';
+    currentContext.strokeStyle = currentStrokeColor;
+    currentContext.fillStyle = currentFillColor;
+    currentContext.beginPath();
+    currentContext.moveTo(positionX, positionY);
+    currentContext.font = fontSize + "px " + fontFamily;
+    currentContext.fillText(text, positionX, positionY);
+    currentContext.strokeText(text, positionX, positionY);
+}
 
 function loadFreeFormPenTool() {
     var header = "Free Form Pen"
@@ -270,6 +327,13 @@ function loadQuadraticCurveContextMenu() {
     var header = "Quadratic Curve"
     var htmlToInsert = "Press, drag and release to set the start and end points of the line.<br/>Then click to set the curving point.";
     updateToolOptions(header, htmlToInsert);
+
+    customVariable = {
+        from: {x: NaN, y: NaN},
+        to: {x: NaN, y: NaN},
+        curvingPoint: {x: NaN, y: NaN},
+        hasStartedDrawingQuadraticCurve: false
+    }
 }
 
 function loadFigureDrawingContextMenu() {
@@ -279,7 +343,33 @@ function loadFigureDrawingContextMenu() {
 }
 
 function loadAddTextToolContextMenu() {
+    customVariable = ['Ariel', 'Times New Roman', 'Georgia', 'Comic Sans MS', 'Courier New', 'Impact', 'Lucida Console', 'Tahoma', 'Trebuchet MS'];
+
     var header = "Add Text"
-    var htmlToInsert = "TODO: X, Y, input, button";
+    var htmlToInsert = "Click on the canvas to select a positon, and use this panel to add text."
+    + "<br/>"
+        + "<label for=\"text-input\">Text: </label>"
+        + "<input type=\"text\" id=\"text-input\"/>"
+    + "<br/>"
+        + "<label for=\"text-position-x-input\">X: </label>"
+        + "<input type=\"number\" id=\"text-position-x-input\"/>"
+        + "<label for=\"text-position-y-input\">X: </label>"
+        + "<input type=\"number\" id=\"text-position-y-input\"/>"
+    + "<br/>"
+        + "<label for=\"text-size-input\">Text Size: </label>"
+        + "<input type=\"number\" id=\"text-size-input\" value=\"35\"/>"
+    + "<br/>"
+        + "<select id=\"text-family-select\">"
+        + "<select>"
+    + "<br/>"
+        + "<button onclick='insertTextBtnClicked()'>InsertText</button>";
+
     updateToolOptions(header, htmlToInsert);
+
+    var $fontSelector = $("#text-family-select");
+    for (var i = 0; i < customVariable.length; i++) {
+        $('<option/>')
+            .append(customVariable[i])
+            .appendTo($fontSelector);
+    }
 }
