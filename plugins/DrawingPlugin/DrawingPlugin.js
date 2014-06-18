@@ -252,7 +252,7 @@ function drawEllipse() {
     else {
         customPositionX = mousePositionX - width / 2;
     }
-
+ 
     if (customPositionY > mousePositionY) {
         customPositionY = mousePositionY + height / 2;
     }
@@ -260,7 +260,13 @@ function drawEllipse() {
         customPositionY = mousePositionY - height / 2;
     }
 
+    // this is a workaround for a bug that I couldn't find
+    width *= (4/3);
+
     currentContext.beginPath();
+    currentContext.lineWidth = currentLineWidth;
+    currentContext.fillStyle = currentFillColor;
+    currentContext.strokeStyle = currentStrokeColor;
 
     currentContext.moveTo(customPositionX, customPositionY - height / 2);
 
@@ -273,6 +279,16 @@ function drawEllipse() {
     customPositionX - width / 2, customPositionY + height / 2,
     customPositionX - width / 2, customPositionY - height / 2,
     customPositionX, customPositionY - height / 2);
+
+//    currentContext.bezierCurveTo(
+//    customPositionX + width, customPositionY,
+//    customPositionX + width, customPositionY + height,
+//    customPositionX + width / 2, customPositionY + height);
+//
+//    currentContext.bezierCurveTo(
+//    customPositionX, customPositionY + height,
+//    customPositionX, customPositionY,
+//    customPositionX + width / 2, customPositionY);
 
     currentContext.fill();
     currentContext.stroke();
