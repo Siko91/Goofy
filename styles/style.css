@@ -1,0 +1,99 @@
+body, div, footer, #wrapper{
+	margin: 0;
+	padding: 0;
+	text-align:center;
+}
+
+body {
+	background: #333;
+	color: red;
+}
+
+#wrapper {
+	background: none;
+	border: none;
+}
+
+div {
+	border: 2px solid black;
+	background: #fff;
+	min-height: 80px;
+	margin: auto;
+}
+
+div header {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	color: black;
+	margin: 0;
+}
+
+div header h1 {
+	font-size: 16px;
+	text-indent: 50px;
+}
+
+div header h2 {
+	font-size: 12px;
+}
+
+input[type='number'] {
+    width: 50px;
+}
+input[type='range'] {
+    width: 100px;
+}
+#general-options > .group {
+    display: inline-block;
+    background: none;
+    border: none;
+    min-height: 0;
+    margin: 5px;
+}
+
+#general-options > #mouse-position-tracker {
+    display: inline-block;
+    width: 100px;
+}
+
+#general-options, #tool-options, #tool-box, #layer-options {
+	background: #ddd;
+	text-align: center;
+}
+
+#general-options, #tool-options, #layer-options {
+	width: 55%;
+}
+
+#tool-box {
+    width: 130px;
+    height: 500px;
+    float: left;
+    margin-left:1%;
+}
+
+#tool-box .currentTool{
+    background: none;
+}
+
+#tool-box button{
+    margin-top: 15px;
+}
+
+#canvas-container {
+    position: relative;
+    left: -3%;
+    display: inline-block;
+}
+
+#layer-options table {
+	display: inline-block;
+}
+
+#layer-options td, #layer-options th {
+	padding: 5px;
+	padding-left: 50px;
+}
+
+#plugin-scripts {
+    display: none;
+}
