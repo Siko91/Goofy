@@ -3,7 +3,15 @@ var strokeBrush = makeToolObj("Stroke Brush", startStrokeBrushDraw, strokeBrushD
 var smoothPen = makeToolObj("Smooth Pen", setFirstPointOfSmoothPen, setAPointOfSmoothPen, drawWithSmoothPen, loadSmoothPenContextMenu, 2);
 var pressureBrush = makeToolObj("Pressure Brush", startPressureBrushDrawll, pressureBrushDraw, null, loadPressureBrushContextMenu, 50);
 
-var ArtisticStrokesTools = [roundBrush, strokeBrush, smoothPen, pressureBrush];
+var artisticRubber = makeToolObj("Artistic Rubber", artisticRubberClear, artisticRubberClear, null, loadArtisticRubberContextMenu, 40);
+
+
+var ArtisticStrokesTools = [
+    roundBrush,
+    strokeBrush,
+    smoothPen,
+    pressureBrush,
+    artisticRubber];
 var ArtisticStrokesToolBox = makeToolBoxObj(ArtisticStrokesTools);
 
 var ArtisticStrokesPlugin = makePluginObj("Artistic Strokes", ArtisticStrokesToolBox);
@@ -18,6 +26,15 @@ function drawLineWithCusumWidthAndColor(lineWidth, lineColor, fromX, fromY, toX,
     currentContext.lineTo(toX, toY);
     currentContext.stroke();
     currentContext.closePath();
+}
+
+function makeRectMoreTransperent(opacityPercentage, x, y, width, height) {
+    var oldArray = currentContext.getImageData(x, y, width, height);
+    //count through only the alpha pixels
+    for (var d = 3; d < oldArray.data.length; d += 4) {
+        oldArray.data[d] = Math.floor(oldArray.data[d] * opacityPercentage);
+    }
+    currentContext.putImageData(oldArray, x, y);
 }
 
 function getColorWithSetOpacity(color, newOpacity) {
@@ -204,6 +221,25 @@ function pressureBrushDraw() {
     }
 }
 
+function artisticRubberClear() {
+    if (mousePressed) {
+        var size = currentLineWidth;
+
+        callClearer(size, 0.95);
+        callClearer(size * 0.6, 0.95);
+        callClearer(size * 0.4, 0.95);
+        callClearer(size * 0.2, 0.85);
+        callClearer(size * 0.1, 0.85);
+
+        function callClearer(size, opacityPercentage) { 
+            var x = mousePositionX - (size / 2),
+                y = mousePositionY - (size / 2);
+
+            makeRectMoreTransperent(opacityPercentage, x, y, size, size);
+        }
+    }
+}
+
 function loadRoundBrushContextMenu() {
     var header = "Round Brush"
     var htmlToInsert = "Just draw as you see fit";
@@ -255,5 +291,11 @@ function loadPressureBrushContextMenu() {
         + "<br/>"
         + "Use short strokes to draw with this brush.<br />The more you hold the mouse button, the bigger will the brush size get."
         + "<br/>";
+    updateToolOptions(header, htmlToInsert);
+}
+
+function loadArtisticRubberContextMenu() {
+    var header = "Artistic Rubber"
+    var htmlToInsert = "Click, or drag to clear an area of the picture.<br/>Adjust the line width to change the rubber size.";
     updateToolOptions(header, htmlToInsert);
 }

@@ -14,6 +14,8 @@ var makeEllipseTool = makeToolObj("Ellipse", drawingPluginSetStartPoint, null, d
 
 var addTextTool = makeToolObj("Add Text", setCoordinatesForTextTool, null, null, loadAddTextToolContextMenu, 1);
 
+var simpleRubber = makeToolObj("Simple Rubber", simpleRubberClear, simpleRubberClear, null, loadSimpleRubberContextMenu, 20);
+
 var drawingPluginTools = [
     freeFormPenTool,
     straightLineTool,
@@ -24,7 +26,8 @@ var drawingPluginTools = [
     makeRectTool,
     makeCircleTool,
     makeEllipseTool,
-    addTextTool
+    addTextTool,
+    simpleRubber
     ];
 
 var drawingPluginToolBox = makeToolBoxObj(drawingPluginTools);
@@ -280,16 +283,6 @@ function drawEllipse() {
     customPositionX - width / 2, customPositionY - height / 2,
     customPositionX, customPositionY - height / 2);
 
-//    currentContext.bezierCurveTo(
-//    customPositionX + width, customPositionY,
-//    customPositionX + width, customPositionY + height,
-//    customPositionX + width / 2, customPositionY + height);
-//
-//    currentContext.bezierCurveTo(
-//    customPositionX, customPositionY + height,
-//    customPositionX, customPositionY,
-//    customPositionX + width / 2, customPositionY);
-
     currentContext.fill();
     currentContext.stroke();
 }
@@ -319,6 +312,18 @@ function insertTextBtnClicked() {
     currentContext.font = fontSize + "px " + fontFamily;
     currentContext.fillText(text, positionX, positionY);
     currentContext.strokeText(text, positionX, positionY);
+}
+
+function simpleRubberClear() {
+    if (mousePressed) {
+        var rubberSize = currentLineWidth;
+
+        currentContext.clearRect(
+            mousePositionX - (rubberSize / 2),
+            mousePositionY - (rubberSize / 2),
+            rubberSize,
+            rubberSize);
+    }
 }
 
 function loadFreeFormPenTool() {
@@ -388,4 +393,10 @@ function loadAddTextToolContextMenu() {
             .append(customVariable[i])
             .appendTo($fontSelector);
     }
+}
+
+function loadSimpleRubberContextMenu() {
+    var header = "Simple Rubber"
+    var htmlToInsert = "Click, or drag to clear an area of the picture.<br/>Adjust the line width to change the rubber size.";
+    updateToolOptions(header, htmlToInsert);
 }

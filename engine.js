@@ -323,7 +323,7 @@ function addNewLayer(ev, layerName) {
         layerNames.push(layerName);
         canvasContexts[layerName] = layers[layerName].getContext('2d');
 
-        updeteLayerControlDiv();
+        updateCurrentLayer(null, layerName);
     }
     else {
         alert("The name is already taken");
