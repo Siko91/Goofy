@@ -1,1 +1,38 @@
-Goofy Canvas Painter
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Goofy Canvas Painter</title>
+	<link rel="stylesheet" type="text/css" href="styles/style.css"/>
+    <script src="jQuery/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="RaphaelJS/Raphael-min.js" type="text/javascript"></script>
+</head>
+<body>
+	<div id="wrapper">
+	    <div id="general-options"></div>
+	    <div id="tool-options"></div>
+        <div id="tool-box"></div>
+	    <div id="canvas-container" style="width: 800px; height: 500px;"></div>
+	    <div id="layer-options"></div>
+    
+        <script src="globals.js" type="text/javascript"></script>
+        <script src="engine.js" type="text/javascript"></script>
+
+        <div id="plugin-scripts">
+		    /* plugin scripts will be loaded only here ! */
+
+            <script src="plugins/TestPlugin/TestPlugin.js" type="text/javascript"></script>
+            <script src="plugins/TestPlugin2/TestRects.js" type="text/javascript"></script>
+			<script src="plugins/TestPlugin3/testEraser.js" type="text/javascript"></script>
+			<script src="plugins/TestPlugin4/testChart.js" type="text/javascript"></script>
+            <script src="plugins/ArtisticStrokesPlugin/ArtisticStrokesPlugin.js" type="text/javascript"></script>
+            <script src="plugins/ColorPicker/ColorPicker.js" type="text/javascript"></script>
+            <script src="plugins/SVGPlugin/SVGPlugin.js" type="text/javascript"></script>
+            <script src="plugins/ImagePlugin/ImagePlugin.js" type="text/javascript"></script>
+            <script src="plugins/ShapeFillTool/ShapeFillTool.js" type="text/javascript"></script>
+            <script src="plugins/DrawingPlugin/DrawingPlugin.js" type="text/javascript"></script>
+        </div>
+    </div>
+</body>
+<footer>
+</footer>
+</html>
