@@ -1,4 +1,4 @@
-var freeFormPenTool = makeToolObj("Free Form Pen", null, freeFormPenDraw, null, loadFreeFormPenTool);
+var freeFormPenTool = makeToolObj("Free Form Pen", null, freeFormPenDraw, null, loadFreeFormPenTool, 3);
 
 var straightLineTool = makeToolObj("Straight Line", drawingPluginSetStartPoint, null, drawStrightLine, loadLineDrawingContextMenu);
 var lockedStraightLineTool = makeToolObj("Locked Line", drawingPluginSetStartPoint, null, drawLockedStrightLine, loadLineDrawingContextMenu);

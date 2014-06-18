@@ -1,4 +1,4 @@
-var rectMakerOnClick = makeToolObj("Click Rect", makeRectOnClick, null, null, loadClickRectContextMenu);
+var rectMakerOnClick = makeToolObj("Click Rect", makeRectOnClick, null, null, loadClickRectContextMenu, 3);
 var rectMakerOnDrag = makeToolObj("Drag Rect", startDragRect, null, drawDraggedRect, loadDragRectContextMenu);
 
 var testPluginTools = [rectMakerOnClick, rectMakerOnDrag];
